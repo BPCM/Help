@@ -22,7 +22,7 @@ public class CheckInput {
     // signed decimal integer.
     final static String Exp = "[eE][+-]?" + Digits;
     final static String fpRegex =
-            ("[\\x00-\\x20]*" + // Optional leading "whitespace"
+            "[\\x00-\\x20]*" + // Optional leading "whitespace"
             "[+-]?(" + // Optional sign character
             "NaN|" + // "NaN" string
             "Infinity|"
@@ -48,7 +48,7 @@ public class CheckInput {
             "(0[xX]" + HexDigits + "?(\\.)" + HexDigits + ")"
             + ")[pP][+-]?" + Digits + "))"
             + "[fFdD]?))"
-            + "[\\x00-\\x20]*");// Optional trailing "whitespace"
+            + "[\\x00-\\x20]*";// Optional trailing "whitespace"
     // int
     final static String IntPattern = "[+-]?" + Digits; // or: "^-?\\d+$"
 

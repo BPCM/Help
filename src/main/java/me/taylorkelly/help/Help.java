@@ -2,13 +2,14 @@ package me.taylorkelly.help;
 
 import com.jascotty2.CheckInput;
 import com.jascotty2.Str;
-import java.io.File;
-import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class Help extends JavaPlugin {
 
@@ -18,17 +19,24 @@ public class Help extends JavaPlugin {
     protected static HelpList helpList = null;
     protected static HelpSettings settings = null;
 
-    public Help() {
+    /*  public Help() {
         dataFolder = this.getDataFolder();
         if (dataFolder == null) {
             dataFolder = new File("plugins" + File.separatorChar + "Help");
         }
         settings = new HelpSettings(dataFolder);
         helpList = new HelpList(dataFolder);
-    }
+    }*/
 
     @Override
     public void onEnable() {
+
+        dataFolder = this.getDataFolder();
+        if (dataFolder == null) {
+            dataFolder = new File("plugins" + File.separatorChar + "Help");
+        }
+        settings = new HelpSettings(dataFolder);
+        helpList = new HelpList(dataFolder);
 
         if (settings == null || helpList == null) {
             settings = new HelpSettings(dataFolder);
@@ -74,7 +82,6 @@ public class Help extends JavaPlugin {
 //            }
 ////            }
 //        }, 70, 70);
-
     }
 
     @Override
@@ -163,9 +170,10 @@ public class Help extends JavaPlugin {
 
     /**
      * Register a command with a plugin
-     * @param command the command string
+     *
+     * @param command     the command string
      * @param description command description
-     * @param plugin plugin that this command is for
+     * @param plugin      plugin that this command is for
      * @return if the command was registered in Help
      */
     public boolean registerCommand(String command, String description, Plugin plugin) {
@@ -177,10 +185,11 @@ public class Help extends JavaPlugin {
 
     /**
      * Register a command with a plugin
-     * @param command the command string
+     *
+     * @param command     the command string
      * @param description command description
-     * @param plugin plugin that this command is for
-     * @param main if this command should be listed on the main pages
+     * @param plugin      plugin that this command is for
+     * @param main        if this command should be listed on the main pages
      * @return
      */
     public boolean registerCommand(String command, String description, Plugin plugin, boolean main) {
@@ -192,9 +201,10 @@ public class Help extends JavaPlugin {
 
     /**
      * Register a command with a plugin
-     * @param command the command string
+     *
+     * @param command     the command string
      * @param description command description
-     * @param plugin plugin that this command is for
+     * @param plugin      plugin that this command is for
      * @param permissions the permission(s) necessary to view this entry
      * @return
      */
@@ -207,10 +217,11 @@ public class Help extends JavaPlugin {
 
     /**
      * Register a command with a plugin
-     * @param command the command string
+     *
+     * @param command     the command string
      * @param description command description
-     * @param plugin plugin that this command is for
-     * @param main if this command should be listed on the main pages
+     * @param plugin      plugin that this command is for
+     * @param main        if this command should be listed on the main pages
      * @param permissions the permission(s) necessary to view this entry
      * @return
      */
@@ -223,6 +234,7 @@ public class Help extends JavaPlugin {
 
     /**
      * Gets the help text associated with this command
+     *
      * @param command the command to lookup
      * @return help text, or null if none
      */
@@ -232,6 +244,7 @@ public class Help extends JavaPlugin {
 
     /**
      * Gets all of the commands registered with this plugin
+     *
      * @param plugin plugin to lookup
      * @return list of commands
      */

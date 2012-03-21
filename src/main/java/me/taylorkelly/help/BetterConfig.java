@@ -1,50 +1,65 @@
 package me.taylorkelly.help;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import org.bukkit.util.config.Configuration;
 
-public class BetterConfig extends Configuration {
+import org.bukkit.configuration.InvalidConfigurationException;
+//import org.bukkit.util.config.Configuration;
 
-    public BetterConfig(File file) {
-        super(file);
+public class BetterConfig extends Help {
+
+    public BetterConfig(File file) throws IOException, InvalidConfigurationException {
+        this.getConfig().load(file);
     }
 
-    @Override
     public int getInt(String path, int defaultValue) {
-        if (getProperty(path) == null) {
-            setProperty(path, defaultValue);
+        if (this.getConfig().get(path) == null) {
+            this.getConfig().set(path, defaultValue);
         }
-        return super.getInt(path, defaultValue);
+        return this.getConfig().getInt(path, defaultValue);
     }
 
-    @Override
+
     public String getString(String path, String defaultValue) {
-        if (getProperty(path) == null) {
-            setProperty(path, defaultValue);
+        if (this.getConfig().get(path) == null) {
+            this.getConfig().set(path, defaultValue);
         }
-        return super.getString(path, defaultValue);
+        return this.getConfig().getString(path, defaultValue);
     }
 
-    @Override
+
     public boolean getBoolean(String path, boolean defaultValue) {
-        if (getProperty(path) == null) {
-            setProperty(path, defaultValue);
+        if (this.getConfig().get(path) == null) {
+            this.getConfig().set(path, defaultValue);
         }
-        return super.getBoolean(path, defaultValue);
+        return this.getConfig().getBoolean(path, defaultValue);
     }
 
-    @Override
+
     public BetterNode getNode(String path) {
-        if (getProperty(path) == null || !(getProperty(path) instanceof Map)) {
+        if (this.getConfig().get(path) == null || !(this.getConfig().get(path) instanceof Map)) {
             BetterNode node = new BetterNode();
-            setProperty(path, new HashMap<String, Object>());
+            this.getConfig().set(path, new HashMap<String, Object>());
             return node;
         } else {
-            Object raw = getProperty(path);
+            Object raw = this.getConfig().get(path);
             return new BetterNode((Map<String, Object>) raw);
         }
 
+    }
+
+    public void load(){
+        this.reloadConfig();
+    }
+
+    public void setProperty(String path, Object command) {
+        this.getConfig().set(path,command);
+    }
+
+
+    public void save() {
+        this.saveConfig();
     }
 }

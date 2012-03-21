@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 
 public class HelpEntry {
@@ -133,18 +134,26 @@ public class HelpEntry {
             } catch (IOException ex) {
             }
         }
-        BetterConfig config = new BetterConfig(file);
-        config.load();
+        BetterConfig betterConfig = null;
+        try {
+            betterConfig = new BetterConfig(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+        assert betterConfig != null;
+        betterConfig.load();
 
         String node = command.replace(" ", "");
-        config.setProperty(node + ".command", command);
-        config.setProperty(node + ".description", description);
+        betterConfig.setProperty(node + ".command", command);
+        betterConfig.setProperty(node + ".description", description);
         //config.setProperty(node + ".plugin", plugin);
-        config.setProperty(node + ".main", main);
+        betterConfig.setProperty(node + ".main", main);
         if (permissions != null && permissions.length != 0) {
-            config.setProperty(node + ".permissions", permissions);
+            betterConfig.setProperty(node + ".permissions", permissions);
         }
-        config.setProperty(node + ".visible", visible);
-        config.save();
+        betterConfig.setProperty(node + ".visible", visible);
+        betterConfig.save();
     }
 }

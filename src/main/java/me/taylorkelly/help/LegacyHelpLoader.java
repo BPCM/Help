@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.reader.UnicodeReader;
@@ -93,20 +95,28 @@ public class LegacyHelpLoader {
                 Logger.getLogger(LegacyHelpLoader.class.getName()).log(Level.SEVERE, null, ex);
             }
         }*/
-        BetterConfig config = new BetterConfig(file);
-        config.load();
+        BetterConfig betterConfig = null;
+        try {
+            betterConfig = new BetterConfig(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+        assert betterConfig != null;
+        betterConfig.load();
 
         String node = command.replace(" ", "");
-        config.setProperty(node + ".command", command);
-        config.setProperty(node + ".description", description);
-        config.setProperty(node + ".plugin", plugin);
+        betterConfig.setProperty(node + ".command", command);
+        betterConfig.setProperty(node + ".description", description);
+        betterConfig.setProperty(node + ".plugin", plugin);
         if (main) {
-            config.setProperty(node + ".main", main);
+            betterConfig.setProperty(node + ".main", main);
         }
         if (!permissions.isEmpty()) {
-            config.setProperty(node + ".permissions", permissions);
+            betterConfig.setProperty(node + ".permissions", permissions);
         }
-        config.setProperty(node + ".visible", true);
-        config.save();
+        betterConfig.setProperty(node + ".visible", true);
+        betterConfig.save();
     }
 }

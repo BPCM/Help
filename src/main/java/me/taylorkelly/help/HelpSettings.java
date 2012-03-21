@@ -1,8 +1,10 @@
 package me.taylorkelly.help;
 
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 import java.util.logging.Level;
-import org.bukkit.ChatColor;
 
 public final class HelpSettings {
 
@@ -35,20 +37,22 @@ public final class HelpSettings {
             }
 
             File configFile = new File(dataFolder, settingsFile);
-            BetterConfig config = new BetterConfig(configFile);
-            config.load();
+            //BetterConfig betterConfig = new BetterConfig(configFile);
+            //betterConfig.load();
+            YamlConfiguration yamlConfiguration = new YamlConfiguration();
+            yamlConfiguration.load(configFile);
 
-            entriesPerPage = config.getInt("entriesPerPage", entriesPerPage);
-            allowPluginOverride = config.getBoolean("allowPluginOverride", allowPluginOverride);
-            allowPluginHelp = config.getBoolean("allowPluginHelp", allowPluginHelp);
-            savePluginHelp = config.getBoolean("savePluginHelp", savePluginHelp);
-            sortPluginHelp = config.getBoolean("sortPluginHelp", sortPluginHelp);
+            entriesPerPage = yamlConfiguration.getInt("entriesPerPage", entriesPerPage);
+            allowPluginOverride = yamlConfiguration.getBoolean("allowPluginOverride", allowPluginOverride);
+            allowPluginHelp = yamlConfiguration.getBoolean("allowPluginHelp", allowPluginHelp);
+            savePluginHelp = yamlConfiguration.getBoolean("savePluginHelp", savePluginHelp);
+            sortPluginHelp = yamlConfiguration.getBoolean("sortPluginHelp", sortPluginHelp);
 
-            shortenEntries = config.getBoolean("shortenEntries", shortenEntries);
-            useWordWrap = config.getBoolean("useWordWrap", useWordWrap);
-            wordWrapRight = config.getBoolean("wordWrapRight", wordWrapRight);
+            shortenEntries = yamlConfiguration.getBoolean("shortenEntries", shortenEntries);
+            useWordWrap = yamlConfiguration.getBoolean("useWordWrap", useWordWrap);
+            wordWrapRight = yamlConfiguration.getBoolean("wordWrapRight", wordWrapRight);
 
-            config.save();
+            yamlConfiguration.save(configFile);
         } catch (Exception ex) {
             HelpLogger.Log(Level.SEVERE, "Error loading Settings", ex);
         }
